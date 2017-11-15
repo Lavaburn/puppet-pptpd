@@ -1,11 +1,15 @@
 #
 # Add / remove users from /etc/ppp/chap-secrets
 #
-define pptpd::user ($password = 'secret', $ensure = 'present') {
+define pptpd::user (
+  $ensure   = 'present',
+  $password = 'secret',
+  $ip       = '*'
+) {
 
   require 'pptpd::config'
 
-  $s = "${name} pptpd ${password} *"
+  $s = "${name} pptpd ${password} ${ip}"
 
   if $ensure == 'absent' {
     exec { "pptpd remove ${name} user":
